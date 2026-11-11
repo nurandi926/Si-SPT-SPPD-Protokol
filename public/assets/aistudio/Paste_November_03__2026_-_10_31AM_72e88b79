@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Informasi SPT (SI-SPT)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-hover: #1e3a8a;
+            --secondary: #0f172a;
+            --success: #16a34a;
+            --bg-base: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-main: #334155;
+            --text-heading: #1e293b;
+            --border-color: #cbd5e1;
+            --radius: 0.5rem;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page {
+            display: none;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* --- TAMPILAN LOGIN --- */
+        #login-page {
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .login-card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            padding: 2.5rem 2rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        .login-header h2 {
+            color: var(--primary);
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .login-header p {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+            width: 100%;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-heading);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            color: var(--text-heading);
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.15);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .error-message {
+            color: #ef4444;
+            background-color: #fef2f2;
+            border: 1px solid #fca5a5;
+            padding: 0.6rem;
+            border-radius: var(--radius);
+            font-size: 0.85rem;
+            margin-bottom: 1.25rem;
+            display: none;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* --- TAMPILAN DASHBOARD UTAMA --- */
+        #system-page {
+            flex-direction: column;
+        }
+
+        header {
+            background-color: var(--secondary);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .brand-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .role-badge {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .role-admin {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        .role-operator {
+            background-color: #0284c7;
+            color: white;
+        }
+
+        .btn-logout {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: #dc2626;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            flex-grow: 1;
+        }
+
+        @media (min-width: 992px) {
+            .main-container {
+                grid-template-columns: 450px 1fr;
+            }
+        }
+
+        .card {
+            background-color: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            color: var(--text-heading);
+            margin-bottom: 1.25rem;
+            font-weight: 700;
+            border-bottom: 2px solid var(--bg-base);
+            padding-bottom: 0.5rem;
+        }
+
+        .pegawai-block {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+        }
+
+        .pegawai-block-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .pegawai-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+        }
+
+        @media (min-width: 400px) {
+            .pegawai-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .btn-secondary {
+            background-color: #64748b;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #475569;
+        }
+
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+            width: auto;
+            padding: 0.35rem 0.75rem;
+            border-radius: 0.25rem;
+            border: none;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.75rem;
+            font-size: 0.875rem;
+            width: auto;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: var(--bg-base);
+            color: var(--text-heading);
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+            color: var(--text-main);
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .text-muted {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        .alert-box {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            display: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .alert-success {
+            background-color: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        ol {
+            padding-left: 1.2rem;
+        }
+
+        ol li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- TAMPILAN MODAL --- */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.6);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background-color: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 700px;
+            padding: 1.5rem;
+            position: relative;
+            animation: slideIn 0.2s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-15px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+
+        .modal-close-btn:hover {
+            color: #475569;
+        }
+
+        .modal-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+            border-bottom: 2px solid var(--bg-base);
+            padding-bottom: 0.5rem;
+        }
+
+        .btn-pencil {
+            background-color: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.35rem;
+            padding: 0.4rem 0.6rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-pencil:hover {
+            background-color: #e2e8f0;
+            border-color: #94a3b8;
+            color: var(--primary);
+        }
+
+        .input-biaya-modal {
+            width: 100%;
+            padding: 0.35rem 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .pdf-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HALAMAN 1: FORM LOGIN -->
+    <div id="login-page" class="page active">
+        <div class="login-card">
+            <div class="login-header">
+                <h2>SI-SPT</h2>
+                <p>Sistem Informasi Entri Surat Perintah Tugas</p>
+            </div>
+            
+            <div class="error-message" id="login-error"></div>
+
+            <div class="form-group">
+                <label for="login-operator">Pilih Nama Operator / Penginput</label>
+                <select id="login-operator" class="form-control">
+                    <option value="Candra Mardiyati">Candra Mardiyati</option>
+                    <option value="Budi Utomo">Budi Utomo</option>
+                    <option value="Siti Aminah">Siti Aminah</option>
+                    <option value="Ahmad Subarjo">Ahmad Subarjo</option>
+                    <option value="Admin Utama">Admin Utama (Administrator)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="login-password">Kata Sandi (Password)</label>
+                <input type="password" id="login-password" class="form-control" placeholder="Masukkan kata sandi akses..." required>
+                <small style="color: #64748b; display: block; margin-top: 0.4rem; font-size: 0.78rem; line-height: 1.25;">
+                    💡 Info: Kata sandi masing-masing operator berbeda sesuai akun yang dipilih.
+                </small>
+            </div>
+
+            <button class="btn" id="btn-login">Verifikasi & Masuk</button>
+        </div>
+    </div>
+
+    <!-- HALAMAN 2: DASHBOARD UTAMA SISTEM -->
+    <div id="system-page" class="page">
+        <header>
+            <div class="brand-title">
+                <span>📁 SI-SPT Dashboard</span>
+            </div>
+            <div class="user-profile">
+                <span id="user-display" style="font-weight: 600;">Nama User</span>
+                <span id="role-badge" class="role-badge">OPERATOR</span>
+                <button class="btn-logout" id="btn-logout">Keluar</button>
+            </div>
+        </header>
+
+        <main class="main-container">
+            <!-- SEKSI KIRI: FORM ENTRI DATA -->
+            <div class="card">
+                <h3 class="card-title">Entri SPT Baru</h3>
+                <div class="alert-box alert-success" id="form-alert">Data SPT Berhasil Disimpan!</div>
+                
+                <form id="spt-form" onsubmit="event.preventDefault(); eksekusiSimpanSpt();">
+                    
+                    <div class="form-group">
+                        <label for="spt-kelompok-jabatan">Kelompok Jabatan Pelaksana</label>
+                        <select id="spt-kelompok-jabatan" class="form-control" onchange="muatNomorOtomatis()">
+                            <option value="FUNGSIONAL">Jabatan Fungsional ke Bawah</option>
+                            <option value="ESELON">Eselon III ke Atas</option>
+                        </select>
+                        <small style="color: #64748b; display: block; margin-top: 0.35rem; font-size: 0.8rem; line-height: 1.2;" id="spt-keterangan-jabatan">
+                            * Catatan: Nomor SPT and Nomor SPPD terisi otomatis melanjutkan urutan data.
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="spt-nomor">Nomor SPT</label>
+                        <input type="text" id="spt-nomor" class="form-control" readonly style="background-color: #e2e8f0; font-weight: 600; color: var(--primary); cursor: not-allowed;">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sppd-nomor">Nomor SPPD (Otomatis)</label>
+                        <input type="text" id="sppd-nomor" class="form-control" readonly style="background-color: #e2e8f0; font-weight: 600; color: #b91c1c; cursor: not-allowed;">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="spt-dasar">Dasar Penugasan</label>
+                        <textarea id="spt-dasar" class="form-control" rows="2" placeholder="Contoh: Jadwal Kegiatan Bupati dan Wakil Bupati Lumajang" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <label style="margin-bottom: 0; font-weight: 600;">Daftar Pegawai Pelaksana</label>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="tambahBarisPegawai()">+ Tambah Pegawai</button>
+                        </div>
+                        <div id="pegawai-container">
+                            <!-- Komponen nama pelaksana dimasukkan via JS -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="spt-maksud">Maksud / Perihal Tugas</label>
+                        <textarea id="spt-maksud" class="form-control" rows="2" placeholder="Contoh: Mengatur dan mempersiapkan kehadiran Bupati dan Wakil Bupati..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="spt-tujuan">Kota / Tempat Tujuan</label>
+                        <input type="text" id="spt-tujuan" class="form-control" placeholder="Contoh: Senduro" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="spt-tanggal-spt">Tanggal Surat Perintah Tugas</label>
+                        <input type="date" id="spt-tanggal-spt" class="form-control" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tanggal Pelaksanaan Perjalanan Dinas</label>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <input type="date" id="spt-tanggal-mulai" class="form-control" required style="flex: 1;">
+                            <span style="align-self: center; font-size: 0.85rem; color: #64748b; font-weight: 600;">s/d</span>
+                            <input type="date" id="spt-tanggal-selesai" class="form-control" required style="flex: 1;">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn" style="background-color: var(--success);" id="btn-submit-form">Simpan ke Spreadsheet</button>
+                </form>
+            </div>
+
+            <!-- SEKSI KANAN: TABEL RIWAYAT DATA -->
+            <div class="card">
+                <h3 class="card-title" id="tabel-title">Daftar Surat Perintah Tugas</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No SPT / SPPD / Dasar</th>
+                                <th>Informasi Perjalanan</th>
+                                <th>Daftar Pegawai Pelaksana</th>
+                                <th>Menu Dokumen</th>
+                                <th>Input Oleh</th>
+                            </tr>
+                        </thead>
+                        <tbody id="spt-table-body">
+                            <!-- Data baris dimuat lewat JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL EDIT/INPUT NOMINAL BIAYA -->
+    <div id="financial-modal" class="modal-overlay">
+        <div class="modal-box">
+            <button class="modal-close-btn" onclick="tutupModalBiaya()">✕</button>
+            <h4 class="modal-title" id="modal-doc-title">Kelola Komponen Keuangan Per Pegawai</h4>
+            
+            <input type="hidden" id="modal-target-sppd">
+            
+            <div class="table-responsive" style="margin-bottom: 1.5rem;">
+                <table style="font-size: 0.85rem;">
+                    <thead>
+                        <tr style="background-color: #f8fafc;">
+                            <th style="padding: 0.5rem; width: 35%;">Nama Pegawai</th>
+                            <th style="padding: 0.5rem; width: 20%;">Uang Harian (Rp)</th>
+                            <th style="padding: 0.5rem; width: 20%;">Penginapan (Rp)</th>
+                            <th style="padding: 0.5rem; width: 20%;">Transport (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="modal-table-body">
+                        <!-- Komponen input finansial dinamis dimuat via JS -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="tutupModalBiaya()">Batal</button>
+                <button type="button" class="btn btn-sm" style="background-color: var(--success);" onclick="eksekusiUpdateBiayaServer()">
+                    💾 Simpan Biaya
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const isAppsScriptEnv = typeof google !== 'undefined' && google.script && google.script.run;
+
+        let currentUser = { operator: '', role: 'OPERATOR' };
+        let cacheDaftarSpt = []; 
+
+        const DB_KEY = "DATA_SPT_BIAYA_OFFICIAL_V5";
+        
+        function inisialisasiDataBawaan() {
+            if (!localStorage.getItem(DB_KEY)) {
+                const dummyData = [
+                    {
+                        nomorSpt: "800.1.11.1/024/427.17/2026",
+                        nomorSppd: "800.1.2.3/024/427.17/2026",
+                        dasar: "Jadwal Kegiatan Bupati dan Wakil Bupati Lumajang",
+                        tanggalSpt: "2026-10-27",
+                        kelompokJabatan: "FUNGSIONAL",
+                        maksud: "mengatur dan mempersiapkan kehadiran Bupati dan Wakil Bupati Lumajang pada acara \"Upacara Peringatan Hari Sumpah Pemuda ke-98 Tahun 2026\" yang bertempat di Bumi Perkemahan Glagah Arum Desa kandang Tepus Kecamatan Senduro.",
+                        tujuan: "Senduro",
+                        tanggalMulai: "2026-10-28",
+                        tanggalSelesai: "2026-10-28",
+                        operator: "Candra Mardiyati",
+                        tim: [
+                            { nip: "19750429 201001 2 006", nama: "CANDRA MARDIYATI, S.M.", pangkat: "Penata / III c", jabatanPegawai: "Penata Perjalanan Dinas", uangHarian: 370000, penginapan: 500000, transport: 250000 },
+                            { nip: "19930629 202504 2 002", nama: "SISKA HARIYANTI, A.Md", pangkat: "Pengatur / II c", jabatanPegawai: "Staf Protokol", uangHarian: 0, penginapan: 0, transport: 0 },
+                            { nip: "19980527 202521 1 061", nama: "INDRA IBRAHIM", pangkat: "-", jabatanPegawai: "Staf Operasional", uangHarian: 0, penginapan: 0, transport: 0 },
+                            { nip: "19931227 202521 2 096", nama: "VINY WARDATUR R", pangkat: "-", jabatanPegawai: "Staf", uangHarian: 0, penginapan: 0, transport: 0 }
+                        ]
+                    }
+                ];
+                localStorage.setItem(DB_KEY, JSON.stringify(dummyData));
+            }
+        }
+
+        function muatNomorOtomatis() {
+            const kelompok = document.getElementById('spt-kelompok-jabatan').value;
+            const keteranganText = document.getElementById('spt-keterangan-jabatan');
+            
+            if (isAppsScriptEnv) {
+                google.script.run
+                    .withSuccessHandler(function(nomorSppdResmi) {
+                        document.getElementById('sppd-nomor').value = nomorSppdResmi;
+                    })
+                    .getBerikutnyaNomorSppd();
+                
+                if (kelompok === "ESELON") {
+                    document.getElementById('spt-nomor').value = "-";
+                    keteranganText.innerText = "* Catatan: Kelompok Eselon III ke Atas terpilih. Nomor SPT otomatis dikosongi (-), tetapi nomor SPPD tetap terisi otomatis.";
+                } else {
+                    document.getElementById('spt-nomor').value = "Memuat...";
+                    google.script.run
+                        .withSuccessHandler(function(nomorResmi) {
+                            document.getElementById('spt-nomor').value = nomorResmi;
+                        })
+                        .getBerikutnyaNomorSpt();
+                    keteranganText.innerText = "* Catatan: Nomor SPT and Nomor SPPD terisi otomatis melanjutkan urutan data.";
+                }
+            } else {
+                const dataMentah = localStorage.getItem(DB_KEY);
+                const daftarSpt = dataMentah ? JSON.parse(dataMentah) : [];
+                let countSpt = 0;
+                daftarSpt.forEach(item => { if (item.nomorSpt && item.nomorSpt.trim() !== "-") countSpt++; });
+                
+                const nextCounterSpt = String(countSpt + 1).padStart(3, '0');
+                const nextCounterSppd = String(daftarSpt.length + 1).padStart(3, '0');
+                
+                document.getElementById('sppd-nomor').value = `800.1.2.3/${nextCounterSppd}/427.17/2026`;
+                if (kelompok === "ESELON") {
+                    document.getElementById('spt-nomor').value = "-";
+                } else {
+                    document.getElementById('spt-nomor').value = `800.1.11.1/${nextCounterSpt}/427.17/2026`;
+                }
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            inisialisasiDataBawaan();
+            tambahBarisPegawai(); 
+            document.getElementById('btn-login').addEventListener('click', eksekusiLogin);
+            document.getElementById('btn-logout').addEventListener('click', eksekusiLogout);
+            document.getElementById('spt-tanggal-spt').value = new Date().toISOString().split('T')[0];
+        });
+
+        function eksekusiLogin() {
+            const inputNama = document.getElementById('login-operator').value.trim();
+            const inputSandi = document.getElementById('login-password').value;
+            const errorElement = document.getElementById('login-error');
+            
+            errorElement.style.display = 'none';
+
+            const DAFTAR_KREDENSIAL = {
+                "Candra Mardiyati": { sandi: "candra123", role: "OPERATOR" },
+                "Budi Utomo":      { sandi: "budi123",   role: "OPERATOR" },
+                "Siti Aminah":     { sandi: "siti123",   role: "OPERATOR" },
+                "Ahmad Subarjo":   { sandi: "ahmad123",  role: "OPERATOR" },
+                "Admin Utama":     { sandi: "admin123",  role: "ADMINISTRATOR" }
+            };
+
+            const akunDitemukan = DAFTAR_KREDENSIAL[inputNama];
+
+            if (akunDitemukan && inputSandi === akunDitemukan.sandi) {
+                currentUser.operator = inputNama;
+                currentUser.role = akunDitemukan.role;
+            } else {
+                errorElement.innerText = "❌ Kata sandi yang Anda masukkan keliru. Silakan coba kembali!";
+                errorElement.style.display = 'block';
+                return;
+            }
+            
+            document.getElementById('user-display').innerText = currentUser.operator;
+            
+            const badge = document.getElementById('role-badge');
+            badge.innerText = currentUser.role;
+            badge.className = "role-badge " + (currentUser.role === "ADMINISTRATOR" ? "role-admin" : "role-operator");
+            
+            document.getElementById('tabel-title').innerText = currentUser.role === "ADMINISTRATOR" ? "Daftar Semua SPT (Mode Admin)" : "Daftar Rekam SPT Anda";
+
+            document.getElementById('login-page').classList.remove('active');
+            document.getElementById('system-page').classList.add('active');
+            document.getElementById('login-password').value = ""; 
+            
+            muatNomorOtomatis();
+            memuatTabelDataSpt();
+        }
+
+        function eksekusiLogout() {
+            document.getElementById('system-page').classList.remove('active');
+            document.getElementById('login-page').classList.add('active');
+        }
+
+        function tambahBarisPegawai() {
+            const container = document.getElementById('pegawai-container');
+            const rowId = 'peg_row_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+            const div = document.createElement('div');
+            div.className = 'pegawai-block';
+            div.id = rowId;
+            div.innerHTML = `
+                <div class="pegawai-block-header">
+                    <span style="font-size: 0.8rem; font-weight: 700; color: #475569;">Pegawai Pelaksana</span>
+                    <button type="button" class="btn-danger" onclick="hapusBarisPegawai('${rowId}')">✕ Hapus</button>
+                </div>
+                <div class="pegawai-grid">
+                    <input type="text" class="form-control input-nip" placeholder="NIP Pegawai" required>
+                    <input type="text" class="form-control input-nama" placeholder="Nama Lengkap & Gelar" required>
+                    <input type="text" class="form-control input-pangkat" placeholder="Pangkat / Golongan" required>
+                    <input type="text" class="form-control input-jabatan-pegawai" placeholder="Jabatan" required>
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function hapusBarisPegawai(rowId) {
+            const container = document.getElementById('pegawai-container');
+            if (container.children.length > 1) document.getElementById(rowId).remove();
+        }
+
+        function memuatTabelDataSpt() {
+            if (isAppsScriptEnv) {
+                google.script.run
+                    .withSuccessHandler(function(daftarSptServer) { cacheDaftarSpt = daftarSptServer; renderDataTabel(daftarSptServer); })
+                    .memuatDataDariSheet(currentUser.role, currentUser.operator);
+            } else {
+                const dataMentah = localStorage.getItem(DB_KEY);
+                cacheDaftarSpt = dataMentah ? JSON.parse(dataMentah) : [];
+                renderDataTabel([...cacheDaftarSpt].reverse());
+            }
+        }
+
+        function renderDataTabel(dataArray) {
+            const tbody = document.getElementById('spt-table-body');
+            tbody.innerHTML = '';
+            if (!dataArray || dataArray.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #94a3b8; padding: 2rem;">Belum ada riwayat entri data SPT/SPPD yang dapat ditampilkan.</td></tr>`;
+                return;
+            }
+
+            dataArray.forEach((spt) => {
+                const realIndex = cacheDaftarSpt.findIndex(item => item.nomorSppd === spt.nomorSppd);
+                let listTimHtml = '<ol>';
+                spt.tim.forEach(person => {
+                    listTimHtml += `<li><strong>${person.nama}</strong> <span class="text-muted">(NIP: ${person.nip})</span></li>`;
+                });
+                listTimHtml += '</ol>';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <strong>SPT: ${spt.nomorSpt}</strong><br>
+                        <span style="color:#b91c1c; font-weight:700;">SPPD: ${spt.nomorSppd}</span><br>
+                        <small class="text-muted">Dasar: ${spt.dasar}</small>
+                    </td>
+                    <td><div>${spt.maksud}</div><small class="text-muted">📍 ${spt.tujuan} (${spt.tanggalMulai})</small></td>
+                    <td>${listTimHtml}</td>
+                    <td>
+                        <button type="button" class="btn-pencil" onclick="bukaModalKelolaBiaya(${realIndex})">✏️ Isi Biaya</button>
+                        <div class="pdf-btn-group">
+                            <button type="button" class="btn-pencil" style="background-color:#eff6ff; color:#1e40af; border-color:#bfdbfe;" onclick="pemicuAksiDownloadPdf(${realIndex}, 'SPT')">📄 Cetak SPT</button>
+                            <button type="button" class="btn-pencil" style="background-color:#fff1f2; color:#9f1239; border-color:#fecdd3;" onclick="pemicuAksiDownloadPdf(${realIndex}, 'SPD')">📜 Cetak SPD</button>
+                            <button type="button" class="btn-pencil" style="background-color:#f0fdf4; color:#166534; border-color:#bbf7d0;" onclick="pemicuAksiDownloadPdf(${realIndex}, 'KWITANSI')">💰 Cetak Kwitansi</button>
+                            <button type="button" class="btn-pencil" style="background-color:#faf5ff; color:#6b21a8; border-color:#e9d5ff; font-weight:bold; margin-top:2px;" onclick="unduhSemuaDokumenSekaligus(${realIndex})">⚡ Cetak Semua (1-Klik)</button>
+                        </div>
+                    </td>
+                    <td>${spt.operator}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function bukaModalKelolaBiaya(indeks) {
+            const dataSptSelected = cacheDaftarSpt[indeks];
+            if (!dataSptSelected) return;
+            document.getElementById('modal-target-sppd').value = dataSptSelected.nomorSppd;
+            const tbodyModal = document.getElementById('modal-table-body');
+            tbodyModal.innerHTML = '';
+            dataSptSelected.tim.forEach((person) => {
+                const tr = document.createElement('tr');
+                tr.className = "row-biaya-pegawai";
+                tr.innerHTML = `<td><strong>${person.nama}</strong></td>
+                    <td><input type="number" class="input-biaya-modal edit-harian" value="${person.uangHarian || 0}"></td>
+                    <td><input type="number" class="input-biaya-modal edit-inap" value="${person.penginapan || 0}"></td>
+                    <td><input type="number" class="input-biaya-modal edit-trans" value="${person.transport || 0}"></td>`;
+                tbodyModal.appendChild(tr);
+            });
+            document.getElementById('financial-modal').classList.add('active');
+        }
+
+        function tutupModalBiaya() { document.getElementById('financial-modal').classList.remove('active'); }
+
+        function eksekusiUpdateBiayaServer() {
+            const nomorSppd = document.getElementById('modal-target-sppd').value;
+            const rows = document.getElementsByClassName('row-biaya-pegawai');
+            const dataBiayaTim = [];
+            for (let i = 0; i < rows.length; i++) {
+                dataBiayaTim.push({
+                    uangHarian: parseFloat(rows[i].querySelector('.edit-harian').value) || 0,
+                    penginapan: parseFloat(rows[i].querySelector('.edit-inap').value) || 0,
+                    transport: parseFloat(rows[i].querySelector('.edit-trans').value) || 0
+                });
+            }
+            if (isAppsScriptEnv) {
+                google.script.run.withSuccessHandler(function() { tutupModalBiaya(); memuatTabelDataSpt(); }).updateBiayaSppdInSheet(nomorSppd, dataBiayaTim);
+            } else {
+                const idx = cacheDaftarSpt.findIndex(item => item.nomorSppd === nomorSppd);
+                if (idx !== -1) {
+                    dataBiayaTim.forEach((b, i) => {
+                        cacheDaftarSpt[idx].tim[i].uangHarian = b.uangHarian;
+                        cacheDaftarSpt[idx].tim[i].penginapan = b.penginapan;
+                        cacheDaftarSpt[idx].tim[i].transport = b.transport;
+                    });
+                    localStorage.setItem(DB_KEY, JSON.stringify(cacheDaftarSpt));
+                    tutupModalBiaya(); memuatTabelDataSpt();
+                }
+            }
+        }
+
+        function eksekusiSimpanSpt() {
+            const blocks = document.getElementsByClassName('pegawai-block');
+            const dataTim = [];
+            for (let i = 0; i < blocks.length; i++) {
+                dataTim.push({
+                    nip: blocks[i].querySelector('.input-nip').value.trim(),
+                    nama: blocks[i].querySelector('.input-nama').value.trim(),
+                    pangkat: blocks[i].querySelector('.input-pangkat').value.trim(),
+                    jabatanPegawai: blocks[i].querySelector('.input-jabatan-pegawai').value.trim(),
+                    uangHarian: 0, penginapan: 0, transport: 0
+                });
+            }
+            const dataSptBaru = {
+                nomorSpt: document.getElementById('spt-nomor').value,
+                nomorSppd: document.getElementById('sppd-nomor').value,
+                dasar: document.getElementById('spt-dasar').value.trim(),
+                maksud: document.getElementById('spt-maksud').value.trim(),
+                tujuan: document.getElementById('spt-tujuan').value.trim(),
+                tanggalSpt: document.getElementById('spt-tanggal-spt').value,
+                tanggalMulai: document.getElementById('spt-tanggal-mulai').value,
+                tanggalSelesai: document.getElementById('spt-tanggal-selesai').value,
+                kelompokJabatan: document.getElementById('spt-kelompok-jabatan').value,
+                operator: currentUser.operator, tim: dataTim
+            };
+            if (isAppsScriptEnv) {
+                google.script.run.withSuccessHandler(function() { aksiSuksesSimpan(); }).saveSptToSheet(dataSptBaru);
+            } else {
+                cacheDaftarSpt.push(dataSptBaru);
+                localStorage.setItem(DB_KEY, JSON.stringify(cacheDaftarSpt));
+                aksiSuksesSimpan();
+            }
+        }
+
+        function aksiSuksesSimpan() {
+            document.getElementById('spt-form').reset();
+            document.getElementById('pegawai-container').innerHTML = '';
+            tambahBarisPegawai(); muatNomorOtomatis(); memuatTabelDataSpt();
+        }
+
+        function formatTanggalIndo(stringTanggal) {
+            if (!stringTanggal || stringTanggal === "-") return "-";
+            const opsi = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(stringTanggal).toLocaleDateString('id-ID', opsi);
+        }
+
+        function terbilangRupiah(nominal) {
+            var bilangan = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"];
+            var temp = "";
+            if (nominal < 12) { temp = " " + bilangan[nominal]; }
+            else if (nominal < 20) { temp = terbilangRupiah(nominal - 10) + " Belas"; }
+            else if (nominal < 100) { temp = terbilangRupiah(Math.floor(nominal / 10)) + " Puluh" + terbilangRupiah(nominal % 10); }
+            else if (nominal < 200) { temp = " Seratus" + terbilangRupiah(nominal - 100); }
+            else if (nominal < 1000) { temp = terbilangRupiah(Math.floor(nominal / 100)) + " Ratus" + terbilangRupiah(nominal % 100); }
+            else if (nominal < 2000) { temp = " Seribu" + terbilangRupiah(nominal - 1000); }
+            else if (nominal < 1000000) { temp = terbilangRupiah(Math.floor(nominal / 1000)) + " Ribu" + terbilangRupiah(nominal % 1000); }
+            else if (nominal < 1000000000) { temp = terbilangRupiah(Math.floor(nominal / 1000000)) + " Juta" + terbilangRupiah(nominal % 1000000); }
+            return temp.trim() + " Rupiah";
+        }
+
+        function unduhSemuaDokumenSekaligus(indeks) {
+            pemicuAksiDownloadPdf(indeks, 'SPT');
+            setTimeout(() => { pemicuAksiDownloadPdf(indeks, 'SPD'); }, 1200);
+            setTimeout(() => { pemicuAksiDownloadPdf(indeks, 'KWITANSI'); }, 2400);
+        }
+
+        function pemicuAksiDownloadPdf(indeks, jenisDokumen) {
+            const spt = cacheDaftarSpt[indeks];
+            if (!spt) return;
+            
+            const namaPegawaiPertama = spt.tim[0] ? spt.tim[0].nama : "-";
+            const teksDkk = spt.tim.length > 1 ? " dkk" : "";
+            const tglSptIndo = formatTanggalIndo(spt.tanggalSpt);
+            const tglMulaiIndo = formatTanggalIndo(spt.tanggalMulai);
+            const tglSelesaiIndo = formatTanggalIndo(spt.tanggalSelesai);
+            const durasiHari = Math.max(1, Math.round((new Date(spt.tanggalSelesai) - new Date(spt.tanggalMulai)) / (1000*60*60*24)) + 1);
+
+            const LOGO_DAERAH_SVG = '<svg width="55" height="66" viewBox="0 0 60 72" style="position: absolute; left: 15px; top: -5px;"><path d="M5,12 C5,5 15,2 30,2 C45,2 55,5 55,12 C55,42 42,65 30,70 C18,65 5,42 5,12 Z" fill="#007A33" stroke="#E11D48" stroke-width="2"/><path d="M30,12 L45,45 L15,45 Z" fill="#FFFFFF"/><path d="M30,12 L38,45 L22,45 Z" fill="#DC2626"/><polygon points="30,5 33,12 40,12 34,16 36,23 30,19 24,23 26,16 20,12 27,12" fill="#FACC15"/><path d="M15,45 Q30,52 45,45" fill="none" stroke="#2563EB" stroke-width="3"/><rect x="10" y="58" width="40" height="8" rx="2" fill="#FFFFFF" stroke="#000000" stroke-width="0.75"/><text x="30" y="65" font-size="5.5" font-family=\'Arial\' font-weight="bold" text-anchor="middle" fill="#000000">KAB. LUMAJANG</text></svg>';
+
+            const KOP_SURAT_STANDAR = '<div style="text-align: center; position: relative; margin-bottom: 10px; padding-left: 75px; padding-right: 10px; min-height: 65px; box-sizing: border-box; width: 100%;">' + LOGO_DAERAH_SVG + '<h2 style="margin: 0; font-size: 12pt; font-weight: bold; font-family: \'Arial\'; color: #000000; letter-spacing: 0.5px; line-height: 1.2; text-transform: uppercase;">PEMERINTAH KABUPATEN LUMAJANG</h2><h1 style="margin: 1px 0 2px 0; font-size: 14pt; font-weight: bold; font-family: \'Arial\'; color: #000000; letter-spacing: 0.5px; line-height: 1.2; text-transform: uppercase;">SEKRETARIAT DAERAH</h1><p style="margin: 0; font-size: 8pt; font-family: \'Arial\'; color: #000000; line-height: 1.3; font-weight: normal;">Jalan Alun – Alun Utara Nomor 7, Kelurahan Rogotrunan, Kecamatan Lumajang,</p><p style="margin: 0; font-size: 8pt; font-family: \'Arial\'; color: #000000; line-height: 1.3; font-weight: normal;">Kabupaten Lumajang, Jawa Timur 67316,</p><p style="margin: 0; font-size: 8pt; font-family: \'Arial\'; color: #000000; line-height: 1.3; font-weight: normal;">Telepon (0334) 881009, Faksimile (0334) 881009,</p><div style="border-bottom: 3.5px double #000000; margin-top: 5px; width: 100%;"></div></div>';
+
+            let ISI_STR_HTML = '';
+
+            if (jenisDokumen === 'SPT') {
+                let listSptPegawai = '';
+                spt.tim.forEach((p, idx) => {
+                    listSptPegawai += '<div style="display: flex; margin-bottom: 8px; font-size: 10pt; font-family: \'Arial\'; line-height: 1.35;"><div style="width: 20px; font-weight: normal; text-align: left;">' + (idx + 1) + '</div><div style="flex: 1;"><table style="width: 100%; font-size: 10pt; border: none; border-collapse: collapse; margin: 0; padding: 0;"><tr style="border:none;"><td style="width: 28%; padding:1px 0; border:none; text-align:left; vertical-align:top;">Nama</td><td style="width:3%; padding:1px 0; border:none; text-align:center;">:</td><td style="padding:1px 0; border:none; font-weight: bold; text-align:left; vertical-align:top; text-transform:uppercase;">' + p.nama + '</td></tr><tr style="border:none;"><td style="padding:1px 0; border:none; text-align:left; vertical-align:top;">Pangkat/Golongan</td><td style="padding:1px 0; border:none; text-align:center;">:</td><td style="padding:1px 0; border:none; text-align:left; vertical-align:top;">' + p.pangkat + '</td></tr><tr style="border:none;"><td style="padding:1px 0; border:none; text-align:left; vertical-align:top;">NIP</td><td style="padding:1px 0; border:none; text-align:center;">:</td><td style="padding:1px 0; border:none; text-align:left; vertical-align:top;">' + p.nip + '</td></tr><tr style="border:none;"><td style="padding:1px 0; border:none; text-align:center;">:</td><td style="padding:1px 0; border:none; text-align:left; vertical-align:top;">' + p.jabatanPegawai + '</td></tr></table></div></div>';
+                });
+
+                ISI_STR_HTML = KOP_SURAT_STANDAR + '<div style="text-align: center; margin-bottom: 18px; margin-top: 8px;"><h3 style="margin: 0; font-size: 11pt; font-weight: bold; text-decoration: underline; text-transform: uppercase; letter-spacing: 0.5px;">SURAT TUGAS</h3><p style="margin: 2px 0 0 0; font-size: 10pt;">Nomor : ' + spt.nomorSpt + '</p></div><table style="width: 100%; font-size: 10pt; border-collapse: collapse; margin-bottom: 12px; border:none;"><tr style="border:none;"><td style="width: 15%; vertical-align: top; font-weight: bold; border:none; padding: 3px 0;">Dasar</td><td style="width: 3%; vertical-align: top; text-align: center; border:none; padding: 3px 0;">:</td><td style="vertical-align: top; text-align: justify; border:none; padding: 3px 0; line-height:1.35;">' + spt.dasar + '</td></tr><tr style="border:none;"><td colspan="3" style="text-align: center; font-weight: bold; padding: 12px 0 8px 0; letter-spacing: 0.5px; border:none; font-size:10pt;">MEMERINTAHKAN :</td></tr><tr style="border:none;"><td style="vertical-align: top; font-weight: bold; border:none; padding: 3px 0;">Kepada</td><td style="vertical-align: top; text-align: center; border:none; padding: 4px 0;">:</td><td style="vertical-align: top; border:none; padding: 3px 0;">' + listSptPegawai + '</td></tr><tr style="border:none;"><td style="vertical-align: top; font-weight: bold; padding-top: 8px; border:none;">Untuk</td><td style="vertical-align: top; text-align: center; padding-top: 8px; border:none;">:</td><td style="vertical-align: top; text-align: justify; padding-top: 8px; border:none; line-height:1.4;">' + spt.maksud + '</td></tr><tr style="border:none;"><td style="vertical-align: top; font-weight: bold; padding-top: 12px; border:none; line-height:1.2;">Pembebanan<br>biaya perjalanan</td><td style="vertical-align: top; text-align: center; padding-top: 12px; border:none;">:</td><td style="vertical-align: top; padding-top: 12px; border:none;"><table style="width: 100%; font-size: 10pt; border: none; border-collapse: collapse;"><tr style="border:none;"><td style="width: 30%; padding:1px 0; border:none;">a. Atas Beban</td><td style="width:3%; padding:1px 0; border:none;">:</td><td style="padding:1px 0; border:none;">Bagian Protokol dan TU Pimpinan Setda Kabupaten Lumajang</td></tr><tr style="border:none;"><td style="padding:1px 0; border:none;">b. Kode Rekening</td><td style="padding:1px 0; border:none;">:</td><td style="padding:1px 0; border:none; font-weight:bold;">5.1.02.04.01.0003</td></tr></table></td></tr></table><div style="display: flex; justify-content: flex-end; margin-top: 40px; font-size: 10pt;"><div style="width: 320px; text-align: left; line-height: 1.35;"><div>Ditetapkan di Lumajang</div><div>pada tanggal ' + tglSptIndo + '</div><div style="margin-top: 4px; font-weight: bold; text-transform: uppercase;">a.n. SEKRETARIS DAERAH</div><div style="font-weight: bold; padding-left: 20px;">Asisten Administrasi</div><div style="font-weight: bold; padding-left: 45px; text-decoration: underline;">u.b.</div><div style="font-weight: bold;">Kepala Bagian Protokol dan TU Pimpinan</div><div style="margin-top: 50px; font-weight: bold; text-decoration: underline; text-transform: uppercase;">YUDI PRASETIYO ANDY PUTRO, S.STP</div><div style="font-size:9.5pt; margin-top:1px;">NIP. 19800305 199810 1 001</div></div></div>';
+
+            } else if (jenisDokumen === 'SPD') {
+                // 💡 PENGATURAN DATA DINAMIS SPD KOLOM 2 DAN KOLOM 3 (BUKAN STATIS "TERLAMPIR"):
+                // Melakukan perulangan (loop) pada array data tim pelaksana dinas riil agar tercetak vertikal berurutan ke bawah.
+                let listNamaNipSpd = '';
+                let listJabatanPangkatSpd = '';
+                
+                spt.tim.forEach((p, idx) => {
+                    listNamaNipSpd += `<div style="margin-bottom: 4px;">${idx + 1}. ${p.nama} / <span style="font-size:8.5pt; font-weight:normal;">NIP. ${p.nip}</span></div>`;
+                    listJabatanPangkatSpd += `<div style="margin-bottom: 4px;">${idx + 1}. ${p.jabatanPegawai} / <span style="font-size:8.5pt; font-weight:normal;">${p.pangkat}</span></div>`;
+                });
+
+                ISI_STR_HTML = KOP_SURAT_STANDAR + '<div style="display: flex; justify-content: flex-end; font-size: 9pt; margin-bottom: 8px; line-height: 1.3;"><div style="width: 250px;"><table style="width: 100%; border:none; font-size: 9pt; border-collapse: collapse;"><tr style="border:none;"><td style="padding:1px 0; width:35%; border:none;">Nomor</td><td style="padding:1px 0; width:5%; border:none;">:</td><td style="padding:1px 0; font-weight:bold; border:none;">' + spt.nomorSppd + '</td></tr><tr style="border:none;"><td style="padding:1px 0; border:none;">Lembar ke</td><td style="padding:1px 0; border:none;">:</td><td style="padding:1px 0; border:none;">-</td></tr></table></div></div><div style="text-align: center; margin-bottom: 15px;"><h3 style="margin: 0; font-size: 11pt; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; text-decoration: underline;">SURAT PERJALANAN DINAS</h3><h4 style="margin: 1px 0 0 0; font-size: 11pt; font-weight: bold; text-transform: uppercase;">( S P D )</h4></div><table style="width: 100%; border-collapse: collapse; font-size: 9.5pt; line-height: 1.35; border: 1.5px solid #000000;"><tr style="border: 1px solid #000000;"><td style="border: 1px solid #000000; padding: 6px; width: 5%; text-align: center; vertical-align: top;">1.</td><td style="border: 1px solid #000000; padding: 6px; width: 38%; vertical-align: top;">Pejabat Pembuat Komitmen</td><td style="border: 1px solid #000000; padding: 6px; width: 57%; font-weight: bold; text-transform: uppercase;">FASILITASI KEPROTOKOLAN</td></tr><tr style="border: 1px solid #000000;"><td style="border: 1px solid #000000; padding: 6px; text-align: center; vertical-align: top;">2.</td><td style="border: 1px solid #000000; padding: 6px; vertical-align: top;">Nama / NIP Pejabat / Pegawai yang melaksanakan perjalanan dinas</td><td style="border: 1px solid #000000; padding: 6px; font-weight: bold; vertical-align: top;">' + listNamaNipSpd + '</td></tr><tr style="border: 1px solid #000000;"><td style="border: 1px solid #000000; padding: 6px; text-align: center; vertical-align: top;">3.</td><td style="border: 1px solid #000000; padding: 6px; vertical-align: top;">Jabatan, Pangkat dan Golongan dari pejabat/pegawai yang melaksanakan perjalanan dinas</td><td style="border: 1px solid #000000; padding: 6px; font-weight: bold; vertical-align: top;">' + listJabatanPangkatSpd + '</td></tr><tr style="border: 1px solid #000000;"><td style="border: 1px solid #000000; padding: 6px; text-align: center; vertical-align: top;">4.</td><td style="border: 1px solid #000000; padding: 6px; vertical-align: top;">Perjalanan dinas yang dilaksanakan</td><td style="border: 1px solid #000000; padding: 6px; vertical-align: top;"><table style="width: 100%; font-size: 9.5pt; border: none; border-collapse: collapse;"><tr style="border:none;"><td style="padding:0; width:15%; border:none;">dari</td><td style="padding:0; width:5%; border:none;">:</td><td style="padding:0; font-weight:bold; border:none;">Lumajang</td></tr><tr style="border:none;"><td style="padding:2px 0 0 0; border:none;">ke</td><td style="padding:2px 0 0 0; width:5%;">:</td><td style="padding:2px 0 0 0; font-weight:bold; border:none; text-transform:uppercase;">' + spt.tujuan + '</td></tr><tr style="border:none;"><td colspan="3" style="padding:4px 0 0 0; font-size:9pt; color:#222; border:none; font-style:italic;">Dengan menggunakan Kendaraan Dinas Roda 4</td></tr></table></td></tr><tr style="border: 1px solid #000000;"><td style="border: 1px solid #000000; padding: 6px; text-align: center; vertical-align: top;">5.</td><td style="border: 1px solid #000000; padding: 6px; vertical-align: top;">Perjalanan dinas direncanakan</td><td style="border: 1px solid #000000; padding: 6px; vertical-align: top;"><strong>selama ' + durasiHari + ' ( ' + terbilangRupiah(durasiHari).replace(" Rupiah", "") + ' ) hari</strong><br>dari tanggal : ' + tglMulaiIndo + '<br>s.d. tanggal : ' + tglSelesaiIndo + '</td></tr><tr style="border: 1px solid #000000;"><td style="border: 1px solid #000000; padding: 6px; text-align: center; vertical-align: top;">6.</td><td style="border: 1px solid #000000; padding: 6px; vertical-align: top;">Maksud Perjalanan Dinas</td><td style="border: 1px solid #000000; padding: 6px; text-align: justify; vertical-align: top;">' + spt.maksud + '</td></tr><tr style="border: 1px solid #000000;"><td style="border: 1px solid #000000; padding: 6px; text-align: center; vertical-align: top;">7.</td><td style="border: 1px solid #000000; padding: 6px; vertical-align: top;">Perhitungan biaya perjalanan</td><td style="border: 1px solid #000000; padding: 6px; vertical-align: top;"><table style="width: 100%; font-size: 9.5pt; border: none; border-collapse: collapse;"><tr style="border:none;"><td style="padding:0; width:30%; border:none;">Atas beban</td><td style="padding:0; width:5%; border:none;">:</td><td style="padding:0; border:none;">Bagian Protokol dan TU Pimpinan</td></tr><tr style="border:none;"><td style="padding:2px 0 0 0; border:none;">Kode Rekening</td><td style="padding:2px 0 0 0; font-weight:bold; border:none;">5.1.02.04.01.0003</td></tr></table></td></tr><tr style="border: 1px solid #000000;"><td style="border: 1px solid #000000; padding: 6px; text-align: center; vertical-align: top;">8.</td><td style="border: 1px solid #000000; padding: 6px; vertical-align: top;">Keterangan lain-lain</td><td style="border: 1px solid #000000; padding: 6px; vertical-align: top;">-</td></tr></table><div style="display: flex; justify-content: flex-end; margin-top: 35px; font-size: 9.5pt; line-height: 1.4;"><div style="width: 320px; text-align: left;"><div>Dikatakan di : Lumajang</div><div>Pada tanggal : ' + tglSptIndo + '</div><div style="border-bottom: 1.5px solid #000000; margin: 4px 0; width: 100%;"></div><div style="font-weight: bold; text-transform: uppercase; text-align: center; margin-bottom: 50px; letter-spacing:0.5px;">PEJABAT PEMBUAT KOMITMEN</div><div style="font-weight: bold; text-decoration: underline; text-transform: uppercase; text-align: center;">YUDI PRASETIYO ANDY PUTRO, S.STP</div><div style="text-align: center; font-size:9pt;">NIP. 19800305 199810 1 001</div></div></div>';
+
+            } else if (jenisDokumen === 'KWITANSI') {
+                let hitungTotalKwitansi = 0;
+                spt.tim.forEach(p => {
+                    hitungTotalKwitansi += (parseFloat(p.uangHarian) || 0) + (parseFloat(p.penginapan) || 0) + (parseFloat(p.transport) || 0);
+                });
+
+                const ORNAMEN_SISI_KIRI = '<td style="width: 30px; border-right: 3px double #000000; padding: 0; vertical-align: top; background: repeating-linear-gradient(45deg, #ffffff, #ffffff 4px, #334155 4px, #334155 5px); opacity: 0.15;">&nbsp;</td>';
+
+                const SATU_BLOK_KWITANSI = '<div style="border: 2px solid #000000; padding: 12px 10px; width: 670px; min-height: 410px; box-sizing: border-box; background-color: #ffffff; margin: 0 auto; display: flex; flex-direction: column; justify-content: space-between;"><div style="width: 100%;"><table style="width: 100%; font-size: 8.5pt; border-collapse: collapse; margin-bottom: 5px; border: none;"><tr style="border: none;"><td style="width: 25%; border: none; padding: 0;">Kwitansi Nomor</td><td style="width: 35%; border: none; padding: 0;">: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / 2026</td><td style="width: 40%; border: none; text-align: right; font-weight: bold; padding: 0;">Kode Rekening : 5.1.02.04.01.0003</td></tr></table><div style="text-align: center; margin-bottom: 8px; width: 100%;"><h2 style="margin: 0; font-size: 10pt; font-weight: bold; text-decoration: underline; letter-spacing: 1px; text-transform: uppercase;">KWITANSI</h2></div><table style="width: 100%; border-collapse: collapse; border: none;"><tr style="border: none;">' + ORNAMEN_SISI_KIRI + '<td style="padding-left: 10px; vertical-align: top; border: none;"><table style="width: 100%; border-collapse: collapse; border: none; font-size: 8.5pt; line-height: 1.4;"><tr style="border: none;"><td style="width: 20%; vertical-align: top; border: none; padding: 2px 0;">Sudah terima dari</td><td style="width: 3%; vertical-align: top; text-align: center; border: none; padding: 2px 0;">:</td><td style="vertical-align: top; text-align: left; border: none; padding: 2px 0;">Bendahara Pengeluaran Pembantu Bagian Protokol dan TU Pimpinan Kabupaten Lumajang</td></tr><tr style="border: none;"><td style="vertical-align: middle; border: none; padding: 2px 0;">Jumlah Uang</td><td style="text-align: center; vertical-align: middle; border: none; padding: 2px 0;">:</td><td style="vertical-align: middle; padding: 2px 0; border: none;"><div style="border: 1.5px solid #000000; background-color: #f1f5f9; padding: 3px 5px; font-weight: bold; font-size: 9pt; text-align: center; text-transform: capitalize; border-radius: 2px;">' + terbilangRupiah(hitungTotalKwitansi) + '</div></td></tr><tr style="border: none;"><td style="vertical-align: top; padding-top: 4px; border: none;">Keperluan</td><td style="text-align: center; vertical-align: top; padding-top: 4px; border: none;">:</td><td style="vertical-align: top; text-align: justify; padding-top: 4px; border: none;">Perjalanan dinas dalam kota a.n. <strong>' + namaPegawaiPertama + teksDkk + '</strong> pada tanggal ' + formatTanggalIndo(spt.tanggalMulai) + ' guna mengatur dan mempersiapkan kehadiran Bupati dan Wakil Bupati Lumajang pada acara "' + spt.maksud + '" yang bertempat di Bumi Perkemahan Glagah Arum Desa kandang Tepus Kecamatan Senduro.<div style="margin-top: 4px; font-size: 8.5pt; line-height: 1.25;"><div style="font-weight: bold; margin-bottom: 2px;">Dengan Perincian :</div><table style="width: 210px; border-collapse: collapse; font-size: 8.5pt; border: none; margin-left: 6px;"><tr style="border: none;"><td style="padding: 1px 0; border: none; width: 35%;">Bruto</td><td style="border: none; width: 15%; text-align: right;">: Rp</td><td style="text-align: right; border: none; font-weight: bold; width: 50%;">' + hitungTotalKwitansi.toLocaleString('id-ID') + ',00</td></tr><tr style="border: none;"><td style="padding: 1px 0; border: none;">Pajak</td><td style="border: none; text-align: right;">: Rp</td><td style="text-align: right; border: none; width: 50%;">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr><tr style="border-top: 1.5px solid #000000;"><td style="padding: 1px 0 0 0; border: none; font-weight: bold;">Netto</td><td style="border: none; padding-top: 1px; text-align: right; font-weight: bold;">: Rp</td><td style="text-align: right; border: none; font-weight: bold; padding-top: 1px; width: 50%;">' + hitungTotalKwitansi.toLocaleString('id-ID') + ',00</td></tr></table></div></td></tr><tr style="border: none;"><td style="vertical-align: middle; font-weight: bold; border: none; padding-top: 6px;">Terbilang</td><td style="text-align: center; vertical-align: middle; font-weight: bold; border: none; padding-top: 6px;">Rp</td><td style="vertical-align: middle; padding-top: 6px; border: none;"><div style="border: 1.5px solid #000000; background-color: #e2e8f0; width: 170px; padding: 3px; font-weight: 900; font-size: 10pt; text-align: center; letter-spacing: 0.5px;">' + hitungTotalKwitansi.toLocaleString('id-ID') + ',00</div></td></tr></table></td></tr></table></div><div style="width:100%;"><div style="font-size: 8.5pt; text-align: right; margin-bottom: 4px; padding-right: 55px; font-style: italic;">Lunas dibayar : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; font-size: 8pt; line-height: 1.25; text-align: center; width: 100%;"><div><div style="font-weight: 500;">Mengetahui,</div><div style="font-weight: bold; margin-bottom: 28px; margin-top: 1px;">PPTK</div><div style="font-weight: bold; text-decoration: underline; text-transform: uppercase;">CANDRA MARDIYATI, S.M.</div><div style="font-size: 7pt;">NIP. 19750429 201001 2 006</div></div><div><div style="font-weight: 500;">Setuju dibayar,</div><div style="font-weight: bold; margin-bottom: 28px; margin-top: 1px;">Bendahara Pengeluaran Pembantu</div><div style="font-weight: bold; text-decoration: underline; text-transform: uppercase;">BAKTI HARI PURWANTO</div><div style="font-size: 7pt;">NIP. 19820129 201001 1 002</div></div><div><div style="font-weight: 500;">Lumajang, ....................................</div><div style="font-weight: bold; margin-bottom: 28px; margin-top: 1px;">Yang menerima,</div><div style="font-weight: bold; text-decoration: underline; text-transform: uppercase;">' + namaPegawaiPertama + '</div><div style="font-size: 7pt;">NIP. ' + (spt.tim[0] ? spt.tim[0].nip : "...................................") + '</div></div></div></div></div>';
+
+                // 💡 LOGIKA STRUKTUR KERTAS FOLIO F4 2 RANGKAP + GARIS BANTU POTONG ATAS & BAWAH:
+                // Menyuntikkan garis putus-putus tambahan (`border-bottom: 2px dashed #000000`) di bagian paling bawah lembaran 
+                // setelah Kwitansi kedua selesai dirender, agar sisi atas dan bawah memiliki penanda lipat/potong simetris.
+                ISI_STR_HTML = '<div style="width:670px; margin:0 auto; box-sizing:border-box; padding-top:5px;">' + SATU_BLOK_KWITANSI + '<div style="border-bottom: 2px dashed #000000; margin: 22px 0; text-align: center; font-size: 7.5pt; color: #334155; font-family: \'Arial\'; font-style: italic; letter-spacing: 2px; width:100%;">✂️ LIPAT ATAU GUNTING DI SINI (PAS TENGAH KERTAS FOLIO F4) ✂️</div>' + SATU_BLOK_KWITANSI + '<div style="border-bottom: 2px dashed #000000; margin-top: 22px; width:100%;"></div></div>';
+            }
+
+            const jendelaCetakSistem = window.open('', '_blank', 'width=850,height=980');
+            if (!jendelaCetakSistem) {
+                alert("Mohon izinkan akses Pop-Up pada browser Anda untuk dapat mengunduh berkas PDF!");
+                return;
+            }
+
+            jendelaCetakSistem.document.write('<!DOCTYPE html><html><head><title>Cetak Dokumen Folio F4</title><script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"><\/script><style>body { margin: 0; padding: 0; background-color: #ffffff; display: flex; justify-content: center; align-items: flex-start; } #kontainer-utama-kertas { width: 750px; box-sizing: border-box; padding: ' + ((jenisDokumen === 'KWITANSI') ? '0px' : '15px 40px 25px 40px') + '; background-color: #ffffff; font-family: \'Arial\', sans-serif; } * { box-sizing: border-box; -webkit-print-color-adjust: exact; } table { border-collapse: collapse; width: 100%; } tr, td { page-break-inside: avoid; }</style></head><body><div id="kontainer-utama-kertas">' + ISI_STR_HTML + '</div><script>window.onload = function() { const targetElemen = document.getElementById(\'kontainer-utama-kertas\'); const opsiEkspor = { margin: ' + ((jenisDokumen === 'KWITANSI') ? '[20, 0, 20, 0]' : '[30, 35, 30, 35]') + ', filename: \'Dokumen_\' + \'' + jenisDokumen + '\' + \'_\' + \'' + spt.nomorSppd.replace(/[\/.]/g, '_') + '\' + \'.pdf\', image: { type: \'jpeg\', quality: 0.99 }, html2canvas: { scale: 2.3, useCORS: true, letterRendering: true, logging: false, scrollY: 0, scrollX: 0 }, jsPDF: { unit: \'pt\', format: [612, 936], orientation: \'portrait\', compress: true } }; html2pdf().set(opsiEkspor).from(targetElemen).save().then(() => { setTimeout(() => { window.close(); }, 700); }).catch(err => { console.error(err); window.close(); }); };<\/script></body></html>');
+            jendelaCetakSistem.document.close();
+        }
+    </script>
+</body>
+</html>

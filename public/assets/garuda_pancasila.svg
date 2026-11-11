@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Gold Gradients -->
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF2A3"/>
+      <stop offset="25%" stop-color="#EAB308"/>
+      <stop offset="70%" stop-color="#CA8A04"/>
+      <stop offset="100%" stop-color="#854D0E"/>
+    </linearGradient>
+    <linearGradient id="darkGold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#CA8A04"/>
+      <stop offset="100%" stop-color="#713F12"/>
+    </linearGradient>
+    <linearGradient id="shieldRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#DC2626"/>
+      <stop offset="100%" stop-color="#991B1B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- GARUDA BODY & WINGS (17 feathers each side) -->
+  <g id="wings" fill="url(#goldGrad)" stroke="#713F12" stroke-width="1.5" stroke-linejoin="round">
+    <!-- Left Wing (Spread out) -->
+    <path d="M220 220 C180 160 120 100 85 40 C75 90 90 140 100 180 C70 120 60 180 80 230 C50 170 45 230 70 280 C40 220 40 290 75 320 C50 270 55 330 95 350 C70 310 80 350 125 365 C100 330 115 365 160 370 C130 340 150 365 190 360 C160 330 190 340 215 320 Z"/>
+    
+    <!-- Right Wing (Spread out) -->
+    <path d="M280 220 C320 160 380 100 415 40 C425 90 410 140 400 180 C430 120 440 180 420 230 C450 170 455 230 430 280 C460 220 460 290 425 320 C450 270 445 330 405 350 C430 310 420 350 375 365 C400 330 385 365 340 370 C370 340 350 365 310 360 C340 330 310 340 285 320 Z"/>
+
+    <!-- Wing Inner Detailed Feathers Left -->
+    <path d="M95 65 C120 120 170 180 220 230" fill="none" stroke="#854D0E" stroke-width="2.5"/>
+    <path d="M110 125 C135 170 175 220 215 250" fill="none" stroke="#854D0E" stroke-width="2"/>
+    <path d="M90 190 C125 220 165 250 210 270" fill="none" stroke="#854D0E" stroke-width="2"/>
+    <path d="M85 255 C125 265 165 285 205 295" fill="none" stroke="#854D0E" stroke-width="1.8"/>
+
+    <!-- Wing Inner Detailed Feathers Right -->
+    <path d="M405 65 C380 120 330 180 280 230" fill="none" stroke="#854D0E" stroke-width="2.5"/>
+    <path d="M390 125 C365 170 325 220 285 250" fill="none" stroke="#854D0E" stroke-width="2"/>
+    <path d="M410 190 C375 220 335 250 290 270" fill="none" stroke="#854D0E" stroke-width="2"/>
+    <path d="M415 255 C375 265 335 285 295 295" fill="none" stroke="#854D0E" stroke-width="1.8"/>
+  </g>
+
+  <!-- TAIL (8 Main Feathers) -->
+  <g id="tail" fill="url(#goldGrad)" stroke="#713F12" stroke-width="1.5">
+    <path d="M210 330 L180 430 L200 445 L220 455 L235 460 L250 462 L265 460 L280 455 L300 445 L320 430 L290 330 Z"/>
+    <!-- Tail Feather Divisions -->
+    <line x1="250" y1="330" x2="250" y2="462" stroke="#713F12" stroke-width="1.5"/>
+    <line x1="230" y1="335" x2="220" y2="455" stroke="#713F12" stroke-width="1.5"/>
+    <line x1="270" y1="335" x2="280" y2="455" stroke="#713F12" stroke-width="1.5"/>
+    <line x1="215" y1="340" x2="195" y2="440" stroke="#713F12" stroke-width="1.5"/>
+    <line x1="285" y1="340" x2="305" y2="440" stroke="#713F12" stroke-width="1.5"/>
+    
+    <!-- Tail base fan -->
+    <path d="M190 435 Q 250 475 310 435 Q 250 450 190 435 Z" fill="#EAB308"/>
+  </g>
+
+  <!-- NECK & HEAD (Facing Right) -->
+  <g id="head-neck" fill="url(#goldGrad)" stroke="#713F12" stroke-width="1.5">
+    <!-- Neck with 45 feathers crest -->
+    <path d="M215 170 Q210 130 225 105 Q245 80 260 80 Q270 70 280 85 Q295 90 285 110 Q280 135 285 170 Z"/>
+    
+    <!-- Head Crown / Crest Feathers -->
+    <path d="M255 85 C250 65 265 50 275 55 C272 65 278 72 270 82 Z" fill="#FACC15"/>
+    <path d="M265 75 C275 60 288 65 285 75 C282 80 285 85 278 88 Z" fill="#EAB308"/>
+
+    <!-- Beak (Curved, sharp, facing right) -->
+    <path d="M272 92 C295 92 315 105 310 120 C295 125 285 118 275 118 Z" fill="#FBBF24" stroke="#854D0E" stroke-width="1.5"/>
+    <path d="M275 110 L300 110" stroke="#854D0E" stroke-width="1.2"/>
+
+    <!-- Eye & Brow -->
+    <circle cx="265" cy="98" r="4.5" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+    <circle cx="266.5" cy="98" r="2.2" fill="#000000"/>
+    <path d="M258 92 C265 89 272 92 274 95" fill="none" stroke="#713F12" stroke-width="2"/>
+    
+    <!-- Neck Feather Scallops -->
+    <path d="M225 130 Q250 145 275 130" fill="none" stroke="#854D0E" stroke-width="1.2"/>
+    <path d="M220 150 Q250 165 280 150" fill="none" stroke="#854D0E" stroke-width="1.2"/>
+  </g>
+
+  <!-- LEGS & TALONS CLAWING THE RIBBON -->
+  <g id="talons" fill="url(#goldGrad)" stroke="#713F12" stroke-width="1.8">
+    <!-- Left Leg & Claws -->
+    <path d="M190 320 L160 380 L140 385 C145 378 155 375 160 375 C165 370 175 368 180 375 L195 320 Z"/>
+    <circle cx="150" cy="385" r="4" fill="#EAB308"/>
+    <circle cx="162" cy="388" r="4" fill="#EAB308"/>
+    <circle cx="174" cy="387" r="4" fill="#EAB308"/>
+    
+    <!-- Right Leg & Claws -->
+    <path d="M310 320 L340 380 L360 385 C355 378 345 375 340 375 C335 370 325 368 320 375 L305 320 Z"/>
+    <circle cx="350" cy="385" r="4" fill="#EAB308"/>
+    <circle cx="338" cy="388" r="4" fill="#EAB308"/>
+    <circle cx="326" cy="387" r="4" fill="#EAB308"/>
+  </g>
+
+  <!-- WHITE SCROLL RIBBON (BHINNEKA TUNGGAL IKA) -->
+  <g id="ribbon">
+    <!-- Left Ribbon Fold -->
+    <path d="M125 410 L90 380 L105 415 L80 435 L125 422 Z" fill="#E2E8F0" stroke="#475569" stroke-width="1.2"/>
+    <!-- Right Ribbon Fold -->
+    <path d="M375 410 L410 380 L395 415 L420 435 L375 422 Z" fill="#E2E8F0" stroke="#475569" stroke-width="1.2"/>
+    
+    <!-- Center Main Ribbon Banner -->
+    <path d="M110 400 Q250 430 390 400 L390 425 Q250 455 110 425 Z" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.8"/>
+    
+    <!-- Text on Ribbon -->
+    <text x="250" y="420" font-family="'Arial Black', Arial, sans-serif" font-weight="900" font-size="13" text-anchor="middle" fill="#000000" letter-spacing="2.2">
+      BHINNEKA TUNGGAL IKA
+    </text>
+  </g>
+
+  <!-- HERALDIC SHIELD (PERISAI PANCASILA) -->
+  <g id="shield">
+    <!-- Outer Shield Border Gold & Black -->
+    <path d="M180 180 L320 180 C320 260 300 310 250 335 C200 310 180 260 180 180 Z" fill="#000000" stroke="#CA8A04" stroke-width="5"/>
+    <path d="M184 184 L316 184 C316 258 297 306 250 330 C203 306 184 258 184 184 Z" fill="#FFFFFF"/>
+
+    <!-- Clip Path for Shield Quarters -->
+    <clipPath id="shieldClip">
+      <path d="M184 184 L316 184 C316 258 297 306 250 330 C203 306 184 258 184 184 Z"/>
+    </clipPath>
+
+    <g clip-path="url(#shieldClip)">
+      <!-- Top Left Quarter (RED - Banteng Head) -->
+      <rect x="184" y="184" width="66" height="66" fill="url(#shieldRed)"/>
+      <!-- Top Right Quarter (WHITE - Banyan Tree) -->
+      <rect x="250" y="184" width="66" height="66" fill="#FFFFFF"/>
+      <!-- Bottom Left Quarter (WHITE - Rice & Cotton) -->
+      <rect x="184" y="250" width="66" height="85" fill="#FFFFFF"/>
+      <!-- Bottom Right Quarter (RED - Golden Chain) -->
+      <rect x="250" y="250" width="66" height="85" fill="url(#shieldRed)"/>
+
+      <!-- Center Cross Line (Thick black divider line representing Equator / Khatulistiwa) -->
+      <line x1="184" y1="250" x2="316" y2="250" stroke="#000000" stroke-width="6"/>
+      <line x1="250" y1="184" x2="250" y2="330" stroke="#000000" stroke-width="4"/>
+
+      <!-- 1. Top Left: KEPALA BANTENG (Bull Head) in Q1 -->
+      <g transform="translate(217, 217)">
+        <path d="M-15 -14 C-12 -6 -6 -2 0 -2 C6 -2 12 -6 15 -14 C12 -12 8 -8 0 -8 C-8 -8 -12 -12 -15 -14 Z" fill="#000000"/>
+        <!-- Horns -->
+        <path d="M-16 -12 C-20 -20 -8 -22 -6 -12 C-10 -15 -14 -16 -16 -12 Z" fill="#FFFFFF" stroke="#000000" stroke-width="0.8"/>
+        <path d="M16 -12 C20 -20 8 -22 6 -12 C10 -15 14 -16 16 -12 Z" fill="#FFFFFF" stroke="#000000" stroke-width="0.8"/>
+        <!-- Head -->
+        <path d="M-8 -6 L-10 6 C-10 12 -4 14 0 14 C4 14 10 12 10 6 L8 -6 Z" fill="#000000"/>
+        <!-- Snout & Eyes -->
+        <ellipse cx="0" cy="9" rx="5" ry="3" fill="#334155"/>
+        <circle cx="-4" cy="0" r="1.5" fill="#FFFFFF"/>
+        <circle cx="4" cy="0" r="1.5" fill="#FFFFFF"/>
+      </g>
+
+      <!-- 2. Top Right: POHON BERINGIN (Banyan Tree) in Q2 -->
+      <g transform="translate(283, 217)">
+        <!-- Foliage -->
+        <path d="M0 -18 C-8 -18 -14 -12 -14 -6 C-18 -6 -20 2 -16 8 C-18 12 -12 16 -8 15 C-6 17 6 17 8 15 C12 16 18 12 16 8 C20 2 18 -6 14 -6 C14 -12 8 -18 0 -18 Z" fill="#15803D" stroke="#166534" stroke-width="1"/>
+        <!-- Trunk -->
+        <path d="M-3 6 L-5 16 L-2 16 L0 10 L2 16 L5 16 L3 6 Z" fill="#78350F"/>
+        <!-- Hanging Roots -->
+        <line x1="-8" y1="8" x2="-8" y2="14" stroke="#78350F" stroke-width="0.8"/>
+        <line x1="8" y1="8" x2="8" y2="14" stroke="#78350F" stroke-width="0.8"/>
+      </g>
+
+      <!-- 3. Bottom Left: PADI DAN KAPAS (Rice & Cotton) in Q3 -->
+      <g transform="translate(217, 285)">
+        <!-- Rice (Padi) Left yellow stalks -->
+        <path d="M-12 14 C-16 0 -10 -14 -2 -18" fill="none" stroke="#CA8A04" stroke-width="2"/>
+        <circle cx="-13" cy="10" r="2" fill="#EAB308"/>
+        <circle cx="-15" cy="4" r="2" fill="#EAB308"/>
+        <circle cx="-14" cy="-2" r="2" fill="#EAB308"/>
+        <circle cx="-10" cy="-8" r="2" fill="#EAB308"/>
+        <circle cx="-5" cy="-14" r="2" fill="#EAB308"/>
+        
+        <!-- Cotton (Kapas) Right white/green buds -->
+        <path d="M-2 14 C4 2 2 -12 -2 -18" fill="none" stroke="#15803D" stroke-width="1.5"/>
+        <circle cx="2" cy="8" r="2.5" fill="#FFFFFF" stroke="#15803D" stroke-width="0.8"/>
+        <circle cx="4" cy="0" r="2.5" fill="#FFFFFF" stroke="#15803D" stroke-width="0.8"/>
+        <circle cx="3" cy="-7" r="2.5" fill="#FFFFFF" stroke="#15803D" stroke-width="0.8"/>
+      </g>
+
+      <!-- 4. Bottom Right: RANTAI EMAS (Golden Chain) in Q4 -->
+      <g transform="translate(283, 285)">
+        <!-- Oval Chain of Rings in loop -->
+        <ellipse cx="0" cy="0" rx="14" ry="12" fill="none" stroke="#EAB308" stroke-width="3" stroke-dasharray="4,2"/>
+        <circle cx="0" cy="0" r="10" fill="none" stroke="#CA8A04" stroke-width="1.2"/>
+      </g>
+    </g>
+
+    <!-- 5. Center Heart Shield: BINTANG EMAS (Golden Star on Black Shield) -->
+    <g transform="translate(250, 250)">
+      <!-- Black Mini Shield -->
+      <polygon points="-22,-22 22,-22 18,18 0,26 -18,18" fill="#000000" stroke="#CA8A04" stroke-width="1.5"/>
+      <!-- Gold Star (5 Points) -->
+      <polygon points="0,-15 4,-4 15,-4 7,3 10,14 0,7 -10,14 -7,3 -15,-4 -4,-4" fill="#FACC15" stroke="#CA8A04" stroke-width="0.8"/>
+    </g>
+  </g>
+</svg>

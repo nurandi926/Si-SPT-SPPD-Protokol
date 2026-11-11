@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@media print {
+  @page {
+    size: 215mm 330mm; /* Kertas Folio / F4 */
+    margin: 8mm 10mm;
+  }
+
+  html, body {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100% !important;
+    overflow: visible !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Sembunyikan elemen latar / UI dashboard */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Unclip modal wrapper dan parent scrollable agar tidak terpotong di halaman pertama */
+  #root,
+  .fixed,
+  .overflow-y-auto,
+  .overflow-hidden,
+  .max-h-\[94vh\],
+  .max-h-\[80vh\] {
+    position: static !important;
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    width: 100% !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Tampilkan dokumen yang akan dicetak dengan layout halaman mengalir alami */
+  #printable-document,
+  #printable-document * {
+    visibility: visible !important;
+  }
+
+  #printable-document {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    overflow: visible !important;
+  }
+
+  /* Pemutus halaman resmi antar dokumen (1. Kwitansi -> 2. Rincian -> 3. SPT -> 4. SPD) */
+  .html2pdf__page-break,
+  .page-break-after {
+    page-break-after: always !important;
+    break-after: page !important;
+    display: block !important;
+    clear: both !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+
+  .document-page-wrapper {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  button,
+  .no-print,
+  nav,
+  header {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
