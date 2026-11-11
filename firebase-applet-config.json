@@ -1,11 +1,10 @@
-{
-  "projectId": "si-spt-96799",
-  "appId": "1:243708259098:web:14cf362516af2cb43e1aa3",
-  "apiKey": "AIzaSyBKNfg4BFh415uJEAlX0fkK0eupwNuM7no",
-  "authDomain": "si-spt-96799.firebaseapp.com",
-  "storageBucket": "si-spt-96799.appspot.com",
-  "messagingSenderId": "243708259098",
-  "measurementId": "",
-  "oAuthClientId": "",
-  "recaptchaSiteKey": ""
-}
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCjBSWEZy7yGyTTF4Vt2Ls6cUDoRNvS-tg",
+  authDomain: "si-spt-96799.firebaseapp.com",
+  projectId: "si-spt-96799",
+  storageBucket: "si-spt-96799.firebasestorage.app",
+  messagingSenderId: "596012636064",
+  appId: "1:596012636064:web:746186a11e021f02d436c5",
+  measurementId: "G-HNZ8KDWTMC"
+};
